@@ -111,25 +111,6 @@
       background-color: #218838;
     }
 
-    #signup-again {
-      display: none;
-      margin-top: 20px;
-      text-align: center;
-    }
-
-    #signup-again p {
-      font-size: 16px;
-      color: #4a2c2a;
-      margin-bottom: 10px;
-    }
-
-    #signup-again button {
-      background-color: #007bff;
-    }
-
-    #signup-again button:hover {
-      background-color: #0069d9;
-    }
   </style>
 </head>
 <body>
@@ -163,32 +144,52 @@
       <h2>Feedback</h2>
       <label>Sanitary Practices</label>
       <div class="radio-group">
-        <label><input type="radio" name="sanitary-practices" id="sanitary-good" value="Good"> Good</label>
-        <label><input type="radio" name="sanitary-practices" id="sanitary-fair" value="Fair"> Fair</label>
-        <label><input type="radio" name="sanitary-practices" id="sanitary-poor" value="Poor"> Poor</label>
+        <label> 
+            <input type="radio" name="sanitary-practices" id="sanitary-good" value="Good" required> Good
+        </label>
+
+        <label>
+            <input type="radio" name="sanitary-practices" id="sanitary-fair" value="Fair" required> Fair
+        </label>
+
+        <label>
+            <input type="radio" name="sanitary-practices" id="sanitary-poor" value="Poor" required> Poor
+        </label>
       </div>
       <p class="warning" id="warning-sanitary">⚠️ Warning: Non-compliance detected!</p>
+
 
       <hr>
       <label>Stall Cleanliness</label>
       <div class="checkbox-group">
-        <label><input type="checkbox" name="stall-cleanliness" value="sanitizing surfaces">Sanitizing surfaces</label>
-        <label><input type="checkbox" name="stall-cleanliness" value="mopping floors">Mopping floors</label>
-        <label><input type="checkbox" name="stall-cleanliness" value="sorting waste">Sorting waste</label>
-        <label><input type="checkbox" name="stall-cleanliness" value="emptying trash bins daily">Emptying trash bins daily</label>
-        <label><input type="checkbox" name="stall-cleanliness" value="inspecting stall for damages">Inspecting stall for damages</label>
-        <label><input type="checkbox" name="stall-cleanliness" value="checking for pest control issues">Checking for pest control issues</label>
+        <label>
+            <input type="checkbox" id="sanitize" name="stall-cleanliness" value="daily cleaning"> Daily Cleaning
+        </label>
+
+        <label>
+            <input type="checkbox" id="mop" name="stall-cleanliness" value="waste disposal"> Wate Disposal
+        </label>
       </div>
 
       <hr>
       <button type="button" onclick="exportToExcel()">Export to Excel</button>
     </form>
 
-    <div id="signup-again">
-      <p>✅ Data has been exported successfully!</p>
-      <button type="button" onclick="resetForm()">Sign Up Again</button>
+    <div id="export-popup" style="
+       display: none;
+       position: fixed;
+       top: 20px;
+       right: 20px;
+       background-color: #4BB543;
+       color: white;
+       padding: 15px 25px;
+       border-radius: 8px;
+       font-size: 16px;
+       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+       z-index: 1000;
+       transition: opacity 0.3s ease;
+    "> ✅ Export Successful!
     </div>
-  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
   <script>
@@ -222,14 +223,35 @@
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, 'Vendor Data');
       XLSX.writeFile(workbook, 'Vendor_Registration.xlsx');
+
+      document.getElementById('warning-sanitary').style.display = 'none';
+
+      const formContainer = document.querySelector('.form-container');
+      const popup = document.getElementById('export-popup');
+
+      popup.style.display = 'block';
+      popup.style.opacity = '1';
+
+      setTimeout(() => {
+        popup.style.opacity = '0';
+        setTimeout(() => {
+            popup.style.display = 'none';
+            form.style.display = 'none';
+
+            const thankYou = document.createElement('div');
+            thankYou.innerHTML = `
+              <div style="text-align: center; padding: 40px;">
+              <h2 style="color: green;">✅ Your response has been submitted!</h2>
+              <p style="font-size: 18px;">Thank you for registering as a vendor. You may now close this window or submit another response below.</p>
+              <button style="margin-top: 20px; padding: 10px 20px; background-color: #3a6b35; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;" onclick="location.reload()">Submit Another Response</button>
+              </div>
+              `;
+
+                formContainer.appendChild(thankYou);
+        }, 300);
+      }, 1000);
     }
 
-    function resetForm() {
-      const form = document.getElementById('vendor-form');
-      form.reset();
-      document.getElementById('signup-again').style.display = 'none';
-      document.getElementById('warning-sanitary').style.display = 'none';
-    }
   </script>
 
 </body>
