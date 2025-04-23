@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vendor Registration</title>
   <style>
     body {
@@ -11,7 +11,6 @@
       padding: 40px 20px;
       background: url('market1.jpg') no-repeat center center fixed;
       background-size: cover;
-      backdrop-filter: blur(2px);
     }
 
     .form-container {
@@ -25,43 +24,33 @@
 
     h1 {
       text-align: center;
-      color: #ffff;
+      color: #fff;
       margin-bottom: 30px;
     }
 
     h2 {
-        text-align: left;
-        color: #3a6b35;
-        margin-bottom: 30px;
-    }
-
-    .container {
-        max-width: 600px;
-        margin: 30px auto;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: left;
+      color: #3a6b35;
+      margin-bottom: 30px;
     }
 
     .header {
-        text-align: center;
-        padding: 20px;
-        background-color: green;
-        color: white;
-        border-radius: 8px 8px 0 0;
+      text-align: center;
+      padding: 20px;
+      background-color: green;
+      color: white;
+      border-radius: 8px 8px 0 0;
     }
 
     label {
-    display: block;
+      display: block;
       margin-top: 15px;
       margin-bottom: 5px;
       font-weight: 600;
       color: #333;
     }
 
-    input[type="text"],
-    select {
+    input[type="text"], select {
       width: 100%;
       padding: 10px 12px;
       border: 1px solid #ccc;
@@ -70,19 +59,16 @@
       box-sizing: border-box;
     }
 
-    .radio-group label,
-    .checkbox-group label {
+    .radio-group label, .checkbox-group label {
       font-weight: normal;
       display: flex;
       align-items: center;
-      margin-bottom: 5;
+      margin-bottom: 5px;
       padding: 0;
       gap: 10px;
-
     }
 
-    input[type="radio"],
-    input[type="checkbox"] {
+    input[type="radio"], input[type="checkbox"] {
       transform: scale(1.1);
     }
 
@@ -111,18 +97,58 @@
       background-color: #218838;
     }
 
+    .hidden { 
+      display: none !important;
+    }
+
+    #intro-modal {
+      position: fixed;
+      top: 0%;
+      left: 0%;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #export-popup {
+      display: none;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #4BB543;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      font-size: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      transition: opacity 0.3s ease;
+    }
   </style>
 </head>
-<body>
 
-  <div class="form-container">
+<body>
+  <div id="intro-modal">
+    <div style="background: white; padding: 30px; border-radius: 12px; max-width: 500px; width: 90%; box-shadow: 0 8px 20px rgba(0,0,0,0.2); text-align: center; animation: fadeIn 0.3s ease;">
+      <h2>📋 Vendor Registration Survey</h2>
+      <p>This survey helps improve stall cleanliness, safety, and management practices at the market.</p>
+      <p>Kindly answer truthfully. Your feedback is important and confidential.</p>
+      <button id="start-btn">Start Survey</button>
+    </div>
+  </div>
+
+  <div class="form-container hidden" id="main-form">
     <div class="header">
-        <h1>VENDOR REGISTRATION FORM</h1>
+      <h1>VENDOR REGISTRATION FORM</h1>
     </div>
     <form id="vendor-form">
-      <h2>Vendor Information</h2> 
+      <h2>Vendor Information</h2>
       <label for="business-name">Business Name</label>
-      <input type="text" id="business-name" name="business-name" placeholder="Enter Business name" required>
+      <input type="text" id="business-name" name="business-name" placeholder="Enter Business name" title="Please enter your business name" required>
 
       <label for="product-type">Product Type</label>
       <select id="product-type" name="product-type" required>
@@ -135,88 +161,82 @@
       </select>
 
       <label for="permit-number">Permit Number</label>
-      <input type="text" id="permit-number" name="permit-number" placeholder="Enter Permit number" required>
+      <input type="text" id="permit-number" name="permit-number" placeholder="Enter Permit number" title="Please enter your permit number" required>
 
       <label for="stall-number">Stall Number</label>
-      <input type="text" id="stall-number" name="stall-number" placeholder="Enter Stall number" required>
+      <input type="text" id="stall-number" name="stall-number" placeholder="Enter Stall number" title="Please enter your stall number" required>
 
       <hr>
       <h2>Feedback</h2>
       <label>Sanitary Practices</label>
       <div class="radio-group">
-        <label> 
-            <input type="radio" name="sanitary-practices" id="sanitary-good" value="Good" required> Good
-        </label>
-
-        <label>
-            <input type="radio" name="sanitary-practices" id="sanitary-fair" value="Fair" required> Fair
-        </label>
-
-        <label>
-            <input type="radio" name="sanitary-practices" id="sanitary-poor" value="Poor" required> Poor
-        </label>
+        <label><input type="radio" name="sanitary-practices" value="Good" required> Good</label>
+        <label><input type="radio" name="sanitary-practices" value="Fair" required> Fair</label>
+        <label><input type="radio" name="sanitary-practices" value="Poor" required> Poor</label>
       </div>
       <p class="warning" id="warning-sanitary">⚠️ Warning: Non-compliance detected!</p>
-
 
       <hr>
       <label>Stall Cleanliness</label>
       <div class="checkbox-group">
-        <label>
-            <input type="checkbox" id="sanitize" name="stall-cleanliness" value="daily cleaning"> Daily Cleaning
-        </label>
-
-        <label>
-            <input type="checkbox" id="mop" name="stall-cleanliness" value="waste disposal"> Wate Disposal
-        </label>
+        <label><input type="checkbox" name="stall-cleanliness" value="daily cleaning"> Daily Cleaning</label>
+        <label><input type="checkbox" name="stall-cleanliness" value="waste disposal"> Waste Disposal</label>
       </div>
+      <p class="warning" id="warning-checkbox" style="display:none;">⚠️ Please select at least one cleanliness option.</p>
 
       <hr>
       <button type="button" onclick="exportToExcel()">Export to Excel</button>
     </form>
+  </div>
 
-    <div id="export-popup" style="
-       display: none;
-       position: fixed;
-       top: 20px;
-       right: 20px;
-       background-color: #4BB543;
-       color: white;
-       padding: 15px 25px;
-       border-radius: 8px;
-       font-size: 16px;
-       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-       z-index: 1000;
-       transition: opacity 0.3s ease;
-    "> ✅ Export Successful!
-    </div>
-
+  <div id="export-popup">✅ Export Successful!</div>
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
   <script>
+    document.getElementById('start-btn').addEventListener('click', startForm);
+
+    function startForm() {
+      document.getElementById('intro-modal').classList.add('hidden');
+      document.getElementById('main-form').classList.remove('hidden');
+    }
+
     document.getElementById('vendor-form').addEventListener('change', function () {
-      const poorSanitary = document.getElementById('sanitary-poor').checked;
+      const selected = document.querySelector('input[name="sanitary-practices"]:checked');
+      const poorSanitary = selected && selected.value === 'Poor';
       document.getElementById('warning-sanitary').style.display = poorSanitary ? 'block' : 'none';
     });
 
     function exportToExcel() {
       const form = document.getElementById('vendor-form');
 
-      if (!form.checkValidity()){
+      if (!form.checkValidity()) {
         form.reportValidity();
         return;
       }
-      
-      const rows = [];
-      Array.from(form.elements).forEach(el => {
-        if (!el.name) return;
 
-        if (el.type === 'radio' && el.checked) {
-          rows.push({ name: el.name, value: el.value });
-        } else if (el.type === 'checkbox' && el.checked) {
-          rows.push({ name: el.name, value: el.value });
+      const checkboxes = document.querySelectorAll('input[name="stall-cleanliness"]:checked');
+      if (checkboxes.length === 0) {
+        document.getElementById('warning-checkbox').style.display = 'block';
+        return;
+      }
+
+      const rows = [];
+      const groupedData = {};
+
+      Array.from(form.elements).forEach((el) => {
+        if (!el.name) return;
+        if (!groupedData[el.name]) groupedData[el.name] = [];
+        if ((el.type === 'radio' || el.type === 'checkbox') && el.checked) {
+          groupedData[el.name].push(el.value);
         } else if (el.type !== 'radio' && el.type !== 'checkbox') {
-          rows.push({ name: el.name, value: el.value });
+          groupedData[el.name] = [el.value];
         }
+      });
+
+      // Now export to Excel
+      rows.unshift({ name: "Submission Date", value: new Date().toLocaleString() });
+      Object.keys(groupedData).forEach((key) => {
+        rows.push({ name: key, value: groupedData[key].join(', ') });
       });
 
       const worksheet = XLSX.utils.json_to_sheet(rows, { header: ['name', 'value'] });
@@ -224,35 +244,23 @@
       XLSX.utils.book_append_sheet(workbook, worksheet, 'Vendor Data');
       XLSX.writeFile(workbook, 'Vendor_Registration.xlsx');
 
-      document.getElementById('warning-sanitary').style.display = 'none';
-
-      const formContainer = document.querySelector('.form-container');
+      // Reset the form and show success message
       const popup = document.getElementById('export-popup');
-
+      popup.innerText = '✅ Your response has been submitted!';
       popup.style.display = 'block';
       popup.style.opacity = '1';
+
+      form.reset();
 
       setTimeout(() => {
         popup.style.opacity = '0';
         setTimeout(() => {
-            popup.style.display = 'none';
-            form.style.display = 'none';
-
-            const thankYou = document.createElement('div');
-            thankYou.innerHTML = `
-              <div style="text-align: center; padding: 40px;">
-              <h2 style="color: green;">✅ Your response has been submitted!</h2>
-              <p style="font-size: 18px;">Thank you for registering as a vendor. You may now close this window or submit another response below.</p>
-              <button style="margin-top: 20px; padding: 10px 20px; background-color: #3a6b35; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;" onclick="location.reload()">Submit Another Response</button>
-              </div>
-              `;
-
-                formContainer.appendChild(thankYou);
+          popup.style.display = 'none';
+          document.getElementById('main-form').classList.add('hidden');
+          document.getElementById('intro-modal').classList.remove('hidden');
         }, 300);
-      }, 1000);
+      }, 1500);
     }
-
   </script>
-
 </body>
 </html>
