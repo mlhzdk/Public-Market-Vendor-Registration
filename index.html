@@ -9,7 +9,9 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 40px 20px;
-      background: linear-gradient(to right, #ffffff, #ece9e6);
+      background: url('market.jpg') no-repeat center center fixed;
+      background-size: cover;
+      backdrop-filter: blur(2px);
     }
 
     .form-container {
@@ -23,12 +25,35 @@
 
     h1 {
       text-align: center;
-      color: #4a2c2a;
+      color: #ffff;
       margin-bottom: 30px;
     }
 
+    h2 {
+        text-align: left;
+        color: #3a6b35;
+        margin-bottom: 30px;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+        text-align: center;
+        padding: 20px;
+        background-color: green;
+        color: white;
+        border-radius: 8px 8px 0 0;
+    }
+
     label {
-      display: block;
+    display: block;
       margin-top: 15px;
       margin-bottom: 5px;
       font-weight: 600;
@@ -45,19 +70,15 @@
       box-sizing: border-box;
     }
 
-    .radio-group, .checkbox-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
     .radio-group label,
     .checkbox-group label {
       font-weight: normal;
       display: flex;
       align-items: center;
+      margin-bottom: 5;
+      padding: 0;
       gap: 10px;
+
     }
 
     input[type="radio"],
@@ -76,7 +97,7 @@
       margin-top: 25px;
       width: 100%;
       padding: 12px;
-      background-color: #28a745;
+      background-color: #3a6b35;
       color: white;
       font-size: 16px;
       font-weight: bold;
@@ -114,15 +135,20 @@
 <body>
 
   <div class="form-container">
-    <h1>Vendor Registration Survey</h1>
+    <div class="header">
+        <h1>VENDOR REGISTRATION FORM</h1>
+    </div>
     <form id="vendor-form">
+      <h2>Vendor Information</h2> 
       <label for="business-name">Business Name</label>
       <input type="text" id="business-name" name="business-name" placeholder="Enter Business name" required>
 
       <label for="product-type">Product Type</label>
       <select id="product-type" name="product-type" required>
         <option value="">Select a product type</option>
+        <option value="frozen goods">Frozen Goods</option>
         <option value="vegetables">Vegetables</option>
+        <option value="fruits">Fruits</option>
         <option value="meat">Meat</option>
         <option value="fish">Fish</option>
       </select>
@@ -130,7 +156,11 @@
       <label for="permit-number">Permit Number</label>
       <input type="text" id="permit-number" name="permit-number" placeholder="Enter Permit number" required>
 
+      <label for="stall-number">Stall Number</label>
+      <input type="text" id="stall-number" name="stall-number" placeholder="Enter Stall number" required>
+
       <hr>
+      <h2>Feedback</h2>
       <label>Sanitary Practices</label>
       <div class="radio-group">
         <label><input type="radio" name="sanitary-practices" id="sanitary-good" value="Good"> Good</label>
@@ -142,8 +172,12 @@
       <hr>
       <label>Stall Cleanliness</label>
       <div class="checkbox-group">
-        <label><input type="checkbox" name="stall-cleanliness" value="Daily Cleaning"> Daily Cleaning</label>
-        <label><input type="checkbox" name="stall-cleanliness" value="Waste Disposal"> Waste Disposal</label>
+        <label><input type="checkbox" name="stall-cleanliness" value="sanitizing surfaces">Sanitizing surfaces</label>
+        <label><input type="checkbox" name="stall-cleanliness" value="mopping floors">Mopping floors</label>
+        <label><input type="checkbox" name="stall-cleanliness" value="sorting waste">Sorting waste</label>
+        <label><input type="checkbox" name="stall-cleanliness" value="emptying trash bins daily">Emptying trash bins daily</label>
+        <label><input type="checkbox" name="stall-cleanliness" value="inspecting stall for damages">Inspecting stall for damages</label>
+        <label><input type="checkbox" name="stall-cleanliness" value="checking for pest control issues">Checking for pest control issues</label>
       </div>
 
       <hr>
