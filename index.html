@@ -200,11 +200,11 @@
     function exportToExcel() {
       const form = document.getElementById('vendor-form');
 
-      if (!form.checkedValidity()){
+      if (!form.checkValidity()){
         form.reportValidity();
         return;
       }
-
+      
       const rows = [];
       Array.from(form.elements).forEach(el => {
         if (!el.name) return;
@@ -222,7 +222,11 @@
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, 'Vendor Data');
       XLSX.writeFile(workbook, 'Vendor_Registration.xlsx');
+    }
 
+    function resetForm() {
+      const form = document.getElementById('vendor-form');
+      form.reset();
       document.getElementById('signup-again').style.display = 'none';
       document.getElementById('warning-sanitary').style.display = 'none';
     }
