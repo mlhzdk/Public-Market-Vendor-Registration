@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You for Your Submission</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('market.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .thank-you-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            margin: 20px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            background-color: #4BB543;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: checkmarkScale 0.5s ease;
+        }
+
+        @keyframes checkmarkScale {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .checkmark::after {
+            content: "✓";
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: #3a6b35;
+            margin-bottom: 15px;
+            font-size: 2.2rem;
+        }
+
+        p {
+            color: #555;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: #3a6b35;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2a4d26;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(42, 77, 38, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.2);
+        }
+
+        .submission-details {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        .detail-item {
+            margin-bottom: 10px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #3a6b35;
+        }
+
+        @media (max-width: 600px) {
+            .thank-you-container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="thank-you-container">
+        <div class="checkmark"></div>
+        <h1>Thank You for Your Submission!</h1>
+        <p>We sincerely appreciate you taking the time to complete our vendor registration form. Your information has been successfully recorded and will help us improve our services.</p>
+        
+        <div class="submission-details">
+            <h3 style="margin-top: 0; color: #3a6b35;">Submission Summary</h3>
+            <div class="detail-item">
+                <span class="detail-label">Reference Number:</span> 
+                <span id="reference-number">VR-<script>document.write(new Date().getTime().toString().slice(-6))</script></span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Submission Date:</span> 
+                <span id="submission-date"><script>document.write(new Date().toLocaleString())</script></span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Next Steps:</span> 
+                <span>Our team will review your submission and contact you if needed.</span>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-secondary" onclick="window.location.href='survey.html'">Submit Another Form</button>
+            <button class="btn btn-secondary" onclick="window.location.href='index.html'">Return to Homepage</button>
+            <button class="btn btn-primary" onclick="window.print()">Print Confirmation</button>
+        </div>
+    </div>
+
+    <script>
+        // You can add any dynamic functionality here
+        // For example, retrieving the actual submission details from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            // Optionally load the actual submitted data
+            const lastSubmission = JSON.parse(localStorage.getItem('lastVendorSubmission'));
+            if (lastSubmission) {
+                // Populate submission details if needed
+            }
+            
+            // Track the submission in analytics if needed
+            console.log('Form submission completed');
+        });
+    </script>
+</body>
+</html>
