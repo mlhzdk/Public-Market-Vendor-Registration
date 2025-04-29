@@ -1,273 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vendor Registration</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vendor Registration Survey</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      padding: 40px 20px;
-      background: url('market1.jpg') no-repeat center center fixed;
-      background-size: cover;
-    }
-
-    .form-container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 30px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    h1 {
-      text-align: center;
-      color: #fff;
-      margin-bottom: 30px;
-    }
-
-    h2 {
-      text-align: center;
-      color: #3a6b35;
-      margin-bottom: 30px;
-    }
-    
-   h3 {
-      text-align: left;
-      color: #3a6b35;
-      margin-bottom: 30px;
-    }
-
-    .header {
-      text-align: center;
-      padding: 20px;
-      background-color: green;
-      color: white;
-      border-radius: 8px 8px 0 0;
-    }
-
-    label {
-      display: block;
-      margin-top: 15px;
-      margin-bottom: 5px;
-      font-weight: 600;
-      color: #333;
-    }
-
-    input[type="text"], select {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 15px;
-      box-sizing: border-box;
-    }
-
-    .radio-group label, .checkbox-group label {
-      font-weight: normal;
-      display: flex;
-      align-items: center;
-      margin-bottom: 5px;
       padding: 0;
-      gap: 10px;
-    }
-
-    input[type="radio"], input[type="checkbox"] {
-      transform: scale(1.1);
-    }
-
-    .warning {
-      color: #d93025;
-      font-weight: bold;
-      margin-top: 10px;
-      display: none;
-    }
-
-    button {
-      margin-top: 25px;
-      width: 100%;
-      padding: 12px;
-      background-color: #3a6b35;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background-color: #218838;
-    }
-
-    .hidden { 
-      display: none !important;
-    }
-
-    #intro-modal {
-      position: fixed;
-      top: 0%;
-      left: 0%;
-      width: 100vw;
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('market.jpg') no-repeat center center fixed;
+      background-size: cover;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.6);
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 1000;
+      color: #333;
     }
 
-    #export-popup {
-      display: none;
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: #4BB543;
-      color: white;
-      padding: 15px 25px;
-      border-radius: 8px;
+    .intro-container {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      max-width: 600px;
+      width: 90%;
+      text-align: center;
+      animation: fadeIn 0.5s ease;
+    }
+
+    h1 {
+      color: #3a6b35;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    p {
+      line-height: 1.6;
+      margin-bottom: 15px;
       font-size: 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-      transition: opacity 0.3s ease;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background-color: #3a6b35;
+      color: white;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #2a4d26;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: #3a6b35;
+      border: 2px solid #3a6b35;
+    }
+
+    .btn-secondary:hover {
+      background-color: #f0f4f7;
+      transform: translateY(-2px);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+      color: #777;
+    }
+
+    .divider::before, .divider::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .divider::before {
+      margin-right: 10px;
+    }
+
+    .divider::after {
+      margin-left: 10px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .confidential {
+      font-size: 14px;
+      color: #777;
+      margin-top: 20px;
+      font-style: italic;
     }
   </style>
 </head>
-
 <body>
-  <div id="intro-modal">
-    <div style="background: white; padding: 30px; border-radius: 12px; max-width: 500px; width: 90%; box-shadow: 0 8px 20px rgba(0,0,0,0.2); text-align: center; animation: fadeIn 0.3s ease;">
-      <h2>📋 Vendor Registration Survey</h2>
-      <p>This survey helps improve stall cleanliness, safety, and management practices at the market.</p>
-      <p>Kindly answer truthfully. Your feedback is important and confidential.</p>
-      <button id="start-btn">Start Survey</button>
-    </div>
-  </div>
-
-  <div class="form-container hidden" id="main-form">
-    <div class="header">
-      <h1>VENDOR REGISTRATION FORM</h1>
-    </div>
+  <div class="intro-container">
+    <h1>Vendor Registration Survey</h1>
+    <p>This survey helps improve stall cleanliness, safety, and management practices at the market.</p>
+    <p>Your participation will help us maintain high standards and provide better services to our customers.</p>
+    <p class="confidential">All responses are confidential and will be used for improvement purposes only.</p>
     
-    <form id="vendor-form">
-      <h3>Vendor Information</h3>
-      <label for="business-name">Business Name</label>
-      <input type="text" id="business-name" name="business-name" placeholder="Enter Business name" title="Please enter your business name" required>
-
-      <label for="product-type">Product Type</label>
-      <select id="product-type" name="product-type" required>
-        <option value="">Select a product type</option>
-        <option value="frozen goods">Frozen Goods</option>
-        <option value="vegetables">Vegetables</option>
-        <option value="fruits">Fruits</option>
-        <option value="meat">Meat</option>
-        <option value="fish">Fish</option>
-      </select>
-
-      <label for="permit-number">Permit Number</label>
-      <input type="text" id="permit-number" name="permit-number" placeholder="Enter Permit number" title="Please enter your permit number" required>
-
-      <label for="stall-number">Stall Number</label>
-      <input type="text" id="stall-number" name="stall-number" placeholder="Enter Stall number" title="Please enter your stall number" required>
-
-      <hr>
-      <h3>Feedback</h3>
-      <label>Sanitary Practices</label>
-      <div class="radio-group">
-        <label><input type="radio" name="sanitary-practices" value="Good" required> Good</label>
-        <label><input type="radio" name="sanitary-practices" value="Fair" required> Fair</label>
-        <label><input type="radio" name="sanitary-practices" value="Poor" required> Poor</label>
-      </div>
-      <p class="warning" id="warning-sanitary">⚠️ Warning: Non-compliance detected!</p>
-
-      <hr>
-      <label>Stall Cleanliness</label>
-      <div class="checkbox-group">
-        <label><input type="checkbox" name="stall-cleanliness" value="daily cleaning"> Daily Cleaning</label>
-        <label><input type="checkbox" name="stall-cleanliness" value="waste disposal"> Waste Disposal</label>
-      </div>
-      <p class="warning" id="warning-checkbox" style="display:none;">⚠️ Please select at least one cleanliness option.</p>
-
-      <hr>
-      <button type="button" onclick="exportToExcel()">Export to Excel</button>
-    </form>
+    <div class="btn-group">
+      <a href="survey.html" class="btn btn-primary">Start Survey</a>
+      <div class="divider">or</div>
+      <a href="response.html" class="btn btn-secondary">View Survey Responses</a>
+    </div>
   </div>
-
-  <div id="export-popup">✅ Export Successful!</div>
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
-  <script>
-    document.getElementById('start-btn').addEventListener('click', startForm);
-
-    function startForm() {
-      document.getElementById('intro-modal').classList.add('hidden');
-      document.getElementById('main-form').classList.remove('hidden');
-    }
-
-    document.getElementById('vendor-form').addEventListener('change', function () {
-      const selected = document.querySelector('input[name="sanitary-practices"]:checked');
-      const poorSanitary = selected && selected.value === 'Poor';
-      document.getElementById('warning-sanitary').style.display = poorSanitary ? 'block' : 'none';
-    });
-
-    function exportToExcel() {
-      const form = document.getElementById('vendor-form');
-
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
-
-      const checkboxes = document.querySelectorAll('input[name="stall-cleanliness"]:checked');
-      if (checkboxes.length === 0) {
-        document.getElementById('warning-checkbox').style.display = 'block';
-        return;
-      }
-
-      const rows = [];
-      const groupedData = {};
-
-      Array.from(form.elements).forEach((el) => {
-        if (!el.name) return;
-        if (!groupedData[el.name]) groupedData[el.name] = [];
-        if ((el.type === 'radio' || el.type === 'checkbox') && el.checked) {
-          groupedData[el.name].push(el.value);
-        } else if (el.type !== 'radio' && el.type !== 'checkbox') {
-          groupedData[el.name] = [el.value];
-        }
-      });
-
-      // Now export to Excel
-      rows.unshift({ name: "Submission Date", value: new Date().toLocaleString() });
-      Object.keys(groupedData).forEach((key) => {
-        rows.push({ name: key, value: groupedData[key].join(', ') });
-      });
-
-      const worksheet = XLSX.utils.json_to_sheet(rows, { header: ['name', 'value'] });
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, 'Vendor Data');
-      XLSX.writeFile(workbook, 'Vendor_Registration.xlsx');
-
-      // Reset the form and show success message
-      const popup = document.getElementById('export-popup');
-      popup.innerText = '✅ Your response has been submitted!';
-      popup.style.display = 'block';
-      popup.style.opacity = '1';
-
-      form.reset();
-
-      setTimeout(() => {
-        popup.style.opacity = '0';
-        setTimeout(() => {
-          popup.style.display = 'none';
-          document.getElementById('main-form').classList.add('hidden');
-          document.getElementById('intro-modal').classList.remove('hidden');
-        }, 300);
-      }, 1500);
-    }
-  </script>
 </body>
 </html>
