@@ -228,14 +228,10 @@ function exportToExcel() {
   XLSX.utils.book_append_sheet(workbook, worksheet, "Vendor Data");
   XLSX.writeFile(workbook, `Vendor_Registration_${new Date().toISOString().split('T')[0]}.xlsx`);
 
-  // Show success message
-  const popup = document.getElementById('export-popup');
-  popup.style.display = 'block';
+  // to thankyou.html
   setTimeout(() => {
-    popup.style.display = 'none';
     form.reset();
-    // Redirect to inde.html
-    window.location.href = 'index.html';
+    window.location.href = 'thankyou.html';
   }, 3000);
 }
   </script>
