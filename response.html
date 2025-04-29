@@ -170,6 +170,28 @@
       flex: 1;
       padding: 10px;
     }
+
+    /* New refresh indicator styles */
+    .refresh-indicator {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #3a6b35;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      z-index: 100;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
   </style>
 </head>
 
@@ -219,10 +241,17 @@
     </div>
   </div>
 
+  <!-- New refresh indicator -->
+  <div id="refresh-indicator" class="refresh-indicator">
+    New responses found. Refreshing...
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
   <script>
     const correctPassword = "letmein123";
     let responses = [];
+    let refreshInterval;
+    let lastUpdateTime = 0;
 
     function checkPassword() {
       const input = document.getElementById('password-input').value;
@@ -230,13 +259,26 @@
         loadResponses();
         document.getElementById('login').style.display = 'none';
         document.getElementById('responses').style.display = 'block';
+        startAutoRefresh();
       } else {
         document.getElementById('error-message').textContent = '❌ Incorrect password';
       }
     }
 
     function loadResponses() {
-      responses = JSON.parse(localStorage.getItem('vendorData') || '[]');
+      const storedData = localStorage.getItem('vendorData');
+      if (storedData) {
+        responses = JSON.parse(storedData);
+        // Update last update time to the newest record's timestamp
+        if (responses.length > 0) {
+          const newestRecord = responses.reduce((newest, current) => {
+            return new Date(current.date) > new Date(newest.date) ? current : newest;
+          });
+          lastUpdateTime = new Date(newestRecord.date).getTime();
+        }
+      } else {
+        responses = [];
+      }
       displayResponses();
     }
 
@@ -253,6 +295,9 @@
         return;
       }
       
+      // Sort by date (newest first)
+      responses.sort((a, b) => new Date(b.date) - new Date(a.date));
+      
       responses.forEach(response => {
         const row = tableBody.insertRow();
         row.insertCell(0).textContent = response.businessName || 'N/A';
@@ -261,8 +306,61 @@
         row.insertCell(3).textContent = response.stallNumber || 'N/A';
         row.insertCell(4).textContent = response.sanitaryPractices || 'N/A';
         row.insertCell(5).textContent = response.cleanliness || 'N/A';
-        row.insertCell(6).textContent = response.date || 'N/A';
+        row.insertCell(6).textContent = response.date ? new Date(response.date).toLocaleString() : 'N/A';
       });
+    }
+
+    function startAutoRefresh() {
+      // Clear any existing interval
+      if (refreshInterval) {
+        clearInterval(refreshInterval);
+      }
+      
+      // Check for updates every 5 seconds
+      refreshInterval = setInterval(() => {
+        checkForUpdates();
+      }, 5000);
+    }
+
+    function checkForUpdates() {
+      const storedData = localStorage.getItem('vendorData');
+      if (!storedData) return;
+      
+      const currentData = JSON.parse(storedData);
+      if (currentData.length > responses.length) {
+        // New submissions found
+        showRefreshIndicator();
+        
+        // Find the newest record
+        const newestRecord = currentData.reduce((newest, current) => {
+          return new Date(current.date) > new Date(newest.date) ? current : newest;
+        });
+        
+        const newestTime = new Date(newestRecord.date).getTime();
+        
+        if (newestTime > lastUpdateTime) {
+          // Update last update time
+          lastUpdateTime = newestTime;
+          
+          // Show refresh indicator and reload after a short delay
+          setTimeout(() => {
+            loadResponses();
+            hideRefreshIndicator();
+          }, 1500);
+        }
+      }
+    }
+
+    function showRefreshIndicator() {
+      const indicator = document.getElementById('refresh-indicator');
+      indicator.style.display = 'block';
+      setTimeout(() => {
+        indicator.style.display = 'none';
+      }, 3000);
+    }
+
+    function hideRefreshIndicator() {
+      document.getElementById('refresh-indicator').style.display = 'none';
     }
 
     function exportResponses() {
@@ -271,7 +369,16 @@
         return;
       }
       
-      const worksheet = XLSX.utils.json_to_sheet(responses);
+      const worksheet = XLSX.utils.json_to_sheet(responses.map(res => ({
+        'Business Name': res.businessName,
+        'Product Type': res.productType,
+        'Permit Number': res.permitNumber,
+        'Stall Number': res.stallNumber,
+        'Sanitary Practices': res.sanitaryPractices,
+        'Stall Cleanliness': res.cleanliness,
+        'Date Submitted': res.date ? new Date(res.date).toLocaleString() : 'N/A'
+      })));
+      
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Responses");
       XLSX.writeFile(workbook, `Vendor_Responses_${new Date().toISOString().split('T')[0]}.xlsx`);
@@ -294,8 +401,40 @@
       responses = [];
       displayResponses();
       hideDeleteConfirmation();
-      alert("All responses have been deleted.");
+      lastUpdateTime = 0;
+      
+      // Show success message
+      const popup = document.createElement('div');
+      popup.textContent = '✓ All responses deleted successfully';
+      popup.style.position = 'fixed';
+      popup.style.bottom = '20px';
+      popup.style.right = '20px';
+      popup.style.backgroundColor = '#4BB543';
+      popup.style.color = 'white';
+      popup.style.padding = '15px 25px';
+      popup.style.borderRadius = '8px';
+      popup.style.zIndex = '1000';
+      popup.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+      document.body.appendChild(popup);
+      
+      setTimeout(() => {
+        popup.style.opacity = '0';
+        setTimeout(() => popup.remove(), 500);
+      }, 3000);
     }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Focus password input on load
+      document.getElementById('password-input').focus();
+      
+      // Allow submitting with Enter key
+      document.getElementById('password-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          checkPassword();
+        }
+      });
+    });
   </script>
 </body>
 </html>
