@@ -194,7 +194,6 @@ function exportToExcel() {
   }
   document.getElementById('warning-checkbox').style.display = 'none';
 
-  // Prepare data
   const formData = new FormData(form);
   const submission = {
     date: new Date().toLocaleString(),
@@ -206,12 +205,10 @@ function exportToExcel() {
     cleanliness: Array.from(checkboxes).map(cb => cb.value).join(", ")
   };
 
-  // Save to localStorage
   const existingData = JSON.parse(localStorage.getItem('vendorData') || '[]');
   existingData.push(submission);
   localStorage.setItem('vendorData', JSON.stringify(existingData));
 
-  // Export to Excel
   const excelRows = [
     ["Field", "Value"],
     ["Submission Date", submission.date],
@@ -228,7 +225,6 @@ function exportToExcel() {
   XLSX.utils.book_append_sheet(workbook, worksheet, "Vendor Data");
   XLSX.writeFile(workbook, `Vendor_Registration_${new Date().toISOString().split('T')[0]}.xlsx`);
 
-  // to thankyou.html
   setTimeout(() => {
     form.reset();
     window.location.href = 'thankyou.html';
