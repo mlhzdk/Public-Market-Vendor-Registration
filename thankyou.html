@@ -185,16 +185,11 @@
     </div>
 
     <script>
-        // You can add any dynamic functionality here
-        // For example, retrieving the actual submission details from localStorage
         document.addEventListener('DOMContentLoaded', function() {
-            // Optionally load the actual submitted data
             const lastSubmission = JSON.parse(localStorage.getItem('lastVendorSubmission'));
             if (lastSubmission) {
-                // Populate submission details if needed
             }
             
-            // Track the submission in analytics if needed
             console.log('Form submission completed');
         });
     </script>
